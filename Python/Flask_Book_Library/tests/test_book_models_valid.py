@@ -16,7 +16,7 @@ ITERATIONS_PER_TEST = 10
 random_valid_string_length = randint(1, 20)
 random_valid_year_published = randint(1439, MAX_YEAR_PUBLISHED) # Since Gutenberg invention
 
-class Test_Book_Models_Extreme: 
+class Test_Book_Models_Valid: 
     @pytest.fixture
     def example_valid_data(self):
         return {
@@ -29,7 +29,7 @@ class Test_Book_Models_Extreme:
 
     @pytest.fixture(params=[random_valid_string_length])
     def get_random_string(self, request):
-        random_string = lambda length: ''.join(choice(ascii_letters) for i in range(length))
+        random_string = lambda length: ''.join(choice(ascii_letters) for _ in range(length))
         yield random_string(request.param)
 
     def test_example_valid_data(self, example_valid_data):
