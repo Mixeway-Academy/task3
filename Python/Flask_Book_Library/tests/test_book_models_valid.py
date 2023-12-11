@@ -36,11 +36,6 @@ class Test_Book_Models_Extreme:
         book = Book(**example_valid_data)
         assert book.author == "John Doe"
 
-    # usage of generator
-    # def test_generator(self, get_random_string):
-    #     for _ in range(0, 20):
-    #         assert len(get_random_string) < 21
-
     def test_name_random_str(self, example_valid_data, get_random_string):
         _, author, year_published, book_type, status = example_valid_data.values()
         name = get_random_string
@@ -207,7 +202,7 @@ class Test_Book_Models_Extreme:
             year_published=year_published,
             book_type=book_type,
         )
-        assert book.status == "available"
+        assert book.status == "available" 
     
     
 
