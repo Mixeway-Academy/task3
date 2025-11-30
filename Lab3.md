@@ -95,4 +95,28 @@ ERROR: failed to solve: process "/bin/sh -c python -m unittest discover -s proje
 View build details: docker-desktop://dashboard/build/default/default/r5shhceuyhr964dsrt9fnhoy9
 ```
 
-# Zadanie 2
+# Zadanie 2.1
+Na początku przetestowałem wysłanie tokenu dla użytkownika Bob. 
+![Wysłanie tokenu z Bobem](https://raw.githubusercontent.com/Yibux/task3/refs/heads/main/jwt1.png)
+Następnie przy użyciu Encodera ze strony https://www.jwt.io/ i ustawiłem header na:
+```
+{
+  "alg": "none",
+  "typ": "JWT"
+}
+```
+oraz payload na:
+```
+{
+  "account": "Administrator",
+  "role": "User",
+  "iat": 1764509433,
+  "aud": "https://127.0.0.1/jwt/none"
+}
+```
+Otrzymany token, którego uzżyłem do requestu: `eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJhY2NvdW50IjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzY0NTA5NDMzLCJhdWQiOiJodHRwczovLzEyNy4wLjAuMS9qd3Qvbm9uZSJ9.`. Wynik tej operacji:
+![Wysłanie tokenu jako Admin](https://raw.githubusercontent.com/Yibux/task3/refs/heads/main/jwt2.png)
+
+# Zadanie 2.2
+Poprawka w pliku `JWT/jwt-signature-apis-challanges/app.json` polegała na usunięciu z algorithd (linia 34) `'none'`. Dzięki temu request jest blokowany bo nie ma już w puli algorytmu `'none'`.
+![Poprawnie zablokowany request](https://raw.githubusercontent.com/Yibux/task3/refs/heads/main/jwt3.png)
