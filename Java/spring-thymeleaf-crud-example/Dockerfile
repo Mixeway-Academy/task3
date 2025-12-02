@@ -9,6 +9,9 @@ WORKDIR /app
 COPY src /app/src
 COPY pom.xml /app
 
+# Uruchom testy jednostkowe 
+RUN mvn test
+
 # Package the application
 RUN mvn clean install -DskipTests
 
