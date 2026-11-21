@@ -18,5 +18,7 @@ ENV FLASK_RUN_HOST=0.0.0.0
 # Expose the port the app runs on
 EXPOSE 5000
 
+ENV PYTHONPATH=/app
+RUN python -m pytest -v --tb=line project/tests/test_book.py
 # Uruchamiamy aplikację
 CMD ["flask", "run"]
