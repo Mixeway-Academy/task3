@@ -34,3 +34,10 @@ Podczas uruchomienia komendy `docker build`:
 
 
 Zgodnie z założeniem zadania błędy w testach zwróciły kod wyjścia różny od zera, co natychmiast przerwało operację `docker build` i zapobiegło utworzeniu podatnego obrazu kontenera.
+
+# Zadanie 2 
+
+Aby zrealizować zadanie uruchomiono kontener z aplikacją korzystająca z JWT w celu uwierzytelnienia użytkownika. Zainstalowano aplikację postman oraz utworzono konto i zaimportowano kolekcję JWT-attacks.postman_collection.json i wykonano scenariusz z katalogu none.
+
+Rozpoczęto od żądania none-obtain-token. 
+
