@@ -8,8 +8,13 @@ WORKDIR /app
 COPY . .
 ENV FLASK_ENV=development
 ENV PASSWORD=1qaz@WSX
+
 # Instalujemy zależności
 RUN pip install --no-cache-dir -r requirements.txt
+
+# DODANY KROK: Uruchomienie testów jednostkowych
+
+RUN python -m unittest test_models.py
 
 # Ustawiamy zmienną środowiskową, aby Flask wiedział, jak uruchomić aplikację
 ENV FLASK_APP=app.py
