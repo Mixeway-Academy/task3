@@ -9,11 +9,14 @@ WORKDIR /app
 COPY src /app/src
 COPY pom.xml /app
 
+# run tests
+RUN mvn test
+
 # Package the application
 RUN mvn clean install -DskipTests
 
 # ---- Deploy Stage ----
-FROM openjdk:11-jdk-slim
+FROM eclipse-temurin:11-jdk
 
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/thymeleaf-0.0.1-SNAPSHOT.jar /app.jar
