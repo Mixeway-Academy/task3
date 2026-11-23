@@ -35,3 +35,30 @@ Komunikat o niepowodzeniu testów i przerwaniu budowania aplikacji:
 
 <img width="762" height="72" alt="image" src="https://github.com/user-attachments/assets/1dec7e13-c864-4581-93f5-c4a52c4c96a0" />
 
+# Zadanie 2 - JWT
+Po otrzymaniu tokena Boba, skorzystałem ze strony jwt.io, która w łatwy sposób pozwala na manipulowanie zakodowanymi polami tokena. Screen ze strony:
+
+<img width="1407" height="545" alt="image" src="https://github.com/user-attachments/assets/80a5ce5c-bea1-4fac-88dc-97f723a44c7d" />
+
+Ostatecznie wygenerowałem token:
+```
+{   "jwt_token":"eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJhY2NvdW50IjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNzk1NDQwNzYxLCJhdWQiOiJodHRwczovLzEyNy4wLjAuMS9qd3Qvbm9uZSJ9."
+}
+```
+Błędna weryfikacja podpisu umożliwiła przejęcie konta Administrator poprzez prostą edycję tokena Boba. W sekcji header ustawiono pole alg na 'none', w payload zmieniono wartość account na 'Administrator', a pole podpisu (signature) usunięto, pozostawiając jedynie kropkę na końcu tokena.
+Screen z odpowiedzią:
+
+<img alt="image" src="jwt.png" />
+
+### Dodanie poprawki
+W linii 32 kodu app.js usunięto z listy algorytmów 'none', a także poprzedzający ją warunek (w razie algorytmu 'none' zwracano pusty secret_key). Po tych poprawkach nie jest już możliwe wysyłanie tokenu bez odpowiedniego podpisu. 
+
+Zmodyfikowana linia kodu:
+```
+    JWT.verify(jwt_token, secret_key, { algorithms: ['HS256'], complete: true, audience: 'https://127.0.0.1/jwt/none' }, (err, decoded_token) => {
+
+```
+
+Odpowiedź po poprawce:
+<img width="857" height="378" alt="image" src="https://github.com/user-attachments/assets/53f60520-b0e8-4976-9e82-4728fe7028c0" />
+
