@@ -261,6 +261,20 @@ class CreateStudentDTOUnitTest {
         assertThat(invalidFields).containsExactly("birthday");
     }
 
+    @Test
+    void shouldReportEveryRequiredFieldForEmptyStudent() {
+        // given
+        CreateStudentDTO student = CreateStudentDTO.builder().build();
+
+        // when
+        var invalidFields = invalidFieldsOf(student);
+
+        // then
+        assertThat(invalidFields)
+                .containsExactlyInAnyOrder("name", "email", "birthday", "zipCode", "street",
+                        "number", "district", "city", "state");
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {
             "mike",
@@ -620,19 +634,5 @@ class CreateStudentDTOUnitTest {
 
         // then
         assertThat(invalidFields).contains("name");
-    }
-
-    @Test
-    void shouldReportEveryRequiredFieldForEmptyStudent() {
-        // given
-        CreateStudentDTO student = CreateStudentDTO.builder().build();
-
-        // when
-        var invalidFields = invalidFieldsOf(student);
-
-        // then
-        assertThat(invalidFields)
-                .containsExactlyInAnyOrder("name", "email", "birthday", "zipCode", "street",
-                        "number", "district", "city", "state");
     }
 }
