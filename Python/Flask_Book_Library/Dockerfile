@@ -9,7 +9,11 @@ COPY . .
 ENV FLASK_ENV=development
 ENV PASSWORD=1qaz@WSX
 # Instalujemy zależności
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt pytest
+
+# Uruchamiamy testy jednostowe - jeśli którykolwiek się nie powiedzie,
+# `docker build` zakończy się błędem i obraz nie powstanie
+RUN python -m pytest test -q
 
 # Ustawiamy zmienną środowiskową, aby Flask wiedział, jak uruchomić aplikację
 ENV FLASK_APP=app.py
