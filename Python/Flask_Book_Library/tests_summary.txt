@@ -1,0 +1,44 @@
+ > [6/6] RUN python -m pytest tests/ -v:
+1.021 ============================= test session starts ==============================
+1.021 platform linux -- Python 3.9.25, pytest-8.4.2, pluggy-1.6.0 -- /usr/local/bin/python
+1.021 cachedir: .pytest_cache
+1.021 rootdir: /app
+1.021 collecting ... collected 21 items
+1.037
+1.037 tests/test_book_model.py::TestValidData::test_attributes_set_on_construction PASSED [  4%]
+1.040 tests/test_book_model.py::TestValidData::test_default_status_is_available PASSED [  9%]
+1.040 tests/test_book_model.py::TestValidData::test_explicit_status_is_kept PASSED [ 14%]
+1.041 tests/test_book_model.py::TestValidData::test_persisted_and_queried_back PASSED [ 19%]
+1.363 tests/test_book_model.py::TestValidData::test_all_valid_book_types_accepted PASSED [ 23%]
+1.684 tests/test_book_model.py::TestInvalidData::test_name_longer_than_column_limit_is_rejected FAILED [ 28%]
+2.001 tests/test_book_model.py::TestInvalidData::test_name_cannot_be_none FAILED [ 33%]
+2.266 tests/test_book_model.py::TestInvalidData::test_year_published_must_be_integer FAILED [ 38%]
+2.537 tests/test_book_model.py::TestInvalidData::test_year_published_must_not_be_negative FAILED [ 42%]
+2.806 tests/test_book_model.py::TestInvalidData::test_book_type_must_be_a_valid_choice FAILED [ 47%]
+3.075 tests/test_book_model.py::TestInvalidData::test_duplicate_name_is_rejected PASSED [ 52%]
+3.345 tests/test_book_model.py::TestSqlInjection::test_sql_payload_in_name_is_stored_as_literal_data PASSED [ 57%]
+3.612 tests/test_book_model.py::TestSqlInjection::test_table_survives_sql_payload PASSED [ 61%]
+3.914 tests/test_book_model.py::TestSqlInjection::test_filter_is_not_vulnerable_to_boolean_injection PASSED [ 66%]
+4.186 tests/test_book_model.py::TestJavaScriptInjection::test_script_payload_is_not_stored_verbatim FAILED [ 71%]
+4.465 tests/test_book_model.py::TestJavaScriptInjection::test_html_event_handler_payload_is_neutralised FAILED [ 76%]
+4.738 tests/test_book_model.py::TestExtreme::test_empty_name_is_rejected FAILED [ 80%]
+5.015 tests/test_book_model.py::TestExtreme::test_extremely_long_name FAILED   [ 85%]
+5.296 tests/test_book_model.py::TestExtreme::test_extremely_large_year FAILED  [ 90%]
+5.585 tests/test_book_model.py::TestExtreme::test_extremely_negative_year FAILED [ 95%]
+5.874 tests/test_book_model.py::TestExtreme::test_unicode_and_emoji_name_roundtrip PASSED [100%]
+
+[...]
+
+6.144 =========================== short test summary info ============================
+6.144 FAILED tests/test_book_model.py::TestInvalidData::test_name_longer_than_column_limit_is_rejected
+6.144 FAILED tests/test_book_model.py::TestInvalidData::test_name_cannot_be_none - ...
+6.144 FAILED tests/test_book_model.py::TestInvalidData::test_year_published_must_be_integer
+6.144 FAILED tests/test_book_model.py::TestInvalidData::test_year_published_must_not_be_negative
+6.144 FAILED tests/test_book_model.py::TestInvalidData::test_book_type_must_be_a_valid_choice
+6.144 FAILED tests/test_book_model.py::TestJavaScriptInjection::test_script_payload_is_not_stored_verbatim
+6.144 FAILED tests/test_book_model.py::TestJavaScriptInjection::test_html_event_handler_payload_is_neutralised
+6.144 FAILED tests/test_book_model.py::TestExtreme::test_empty_name_is_rejected - A...
+6.144 FAILED tests/test_book_model.py::TestExtreme::test_extremely_long_name - Fail...
+6.144 FAILED tests/test_book_model.py::TestExtreme::test_extremely_large_year - ass...
+6.144 FAILED tests/test_book_model.py::TestExtreme::test_extremely_negative_year - ...
+6.271 ======================== 11 failed, 10 passed in 5.12s =========================
