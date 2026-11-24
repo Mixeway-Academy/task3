@@ -19,4 +19,5 @@ ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 5000
 
 # Uruchamiamy aplikację
+RUN python -m pytest
 CMD ["flask", "run"]
